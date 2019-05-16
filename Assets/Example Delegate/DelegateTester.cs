@@ -17,6 +17,14 @@ public class DelegateTester : MonoBehaviour
     {
         Debug.Log("Knob: " + knobNumber + "," + knobValue);
     }
+    void PolyAfterTouch(MidiChannel channel, int note, float pressure)
+    {
+        Debug.Log("PolyAfterTouch: " + channel + "," + note + "," + pressure);
+    }
+    void ChannelAfterTouch(MidiChannel channel, float pressure)
+    {
+        Debug.Log("ChannelAfterTouch: " + channel + "," + pressure);
+    }
 
     void Bend(MidiChannel channel, float bend)
     {
@@ -29,6 +37,8 @@ public class DelegateTester : MonoBehaviour
         MidiMaster.noteOffDelegate += NoteOff;
         MidiMaster.knobDelegate += Knob;
         MidiMaster.pitchBendDelegate += Bend;
+        MidiMaster.polyAfterTouchDelegate += PolyAfterTouch;
+        MidiMaster.channelAfterTouchDelegate += ChannelAfterTouch;
     }
 
     void OnDisable()
@@ -37,5 +47,7 @@ public class DelegateTester : MonoBehaviour
         MidiMaster.noteOffDelegate -= NoteOff;
         MidiMaster.knobDelegate -= Knob;
         MidiMaster.pitchBendDelegate -= Bend;
+        MidiMaster.polyAfterTouchDelegate -= PolyAfterTouch;
+        MidiMaster.channelAfterTouchDelegate -= ChannelAfterTouch;
     }
 }

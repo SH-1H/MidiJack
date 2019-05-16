@@ -61,12 +61,22 @@ mixed status of all active channels.
 
   Returns pitch bend value. The value ranges from -1.0 to 1.0.
 
+- MidiMaster.GetChannelAfterTouch (channel)
+
+  Returns the channel after touch pressure. The value ranges from 0.0 to 1.0.
+
+- MidiMaster.GetPolyAfterTouch (channel, noteNumber)
+
+  Returns the polyphonic after touch pressure. The value ranges from 0.0 to 1.0.
+
 There are also delegates for the each type of MIDI event.
 
 - MidiMaster.noteOnDelegate (channel, noteNumber, velocity)
 - MidiMaster.noteOffDelegate (channel, noteNumber)
 - MidiMaster.knobDelegate (channel, knobNumber, konbValue)
 - MidiMaster.pitchBendDelegate (channel, bend)
+- MidiMaster.channelAfterTouchDelegate (channel, pressure)
+- MidiMaster.polyAfterTouchDelegate (channel, noteNumber, pressure)
 
 
 *Output*

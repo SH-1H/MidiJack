@@ -45,6 +45,15 @@ namespace MidiJack
             get { return MidiDriver.Instance.pitchBendDelegate; }
             set { MidiDriver.Instance.pitchBendDelegate = value; }
         }
+        public static MidiDriver.PolyAfterTouchDelegate polyAfterTouchDelegate {
+            get { return MidiDriver.Instance.polyAfterTouchDelegate; }
+            set { MidiDriver.Instance.polyAfterTouchDelegate = value; }
+        }
+
+        public static MidiDriver.ChannelAfterTouchDelegate channelAfterTouchDelegate {
+            get { return MidiDriver.Instance.channelAfterTouchDelegate; }
+            set { MidiDriver.Instance.channelAfterTouchDelegate = value; }
+        }
 
         // Returns the key state (on: velocity, off: zero).
         public static float GetKey(MidiChannel channel, int noteNumber)
@@ -109,6 +118,28 @@ namespace MidiJack
         public static float GetBend()
         {
             return MidiDriver.Instance.GetBend(MidiChannel.All);
+        }
+
+        // Returns the after touch (polyphonic) pressure.
+        public static float GetPolyAfterTouch(MidiChannel channel, int noteNumber)
+        {
+            return MidiDriver.Instance.GetPolyAfterTouch(channel, noteNumber);
+        }
+
+        public static float GetPolyAfterTouch(int noteNumber)
+        {
+            return MidiDriver.Instance.GetPolyAfterTouch(MidiChannel.All, noteNumber);
+        }
+
+        // Returns the after touch (channel) pressure.
+        public static float GetChannelAfterTouch(MidiChannel channel)
+        {
+            return MidiDriver.Instance.GetChannelAfterTouch(channel);
+        }
+
+        public static float GetChannelAfterTouch()
+        {
+            return MidiDriver.Instance.GetChannelAfterTouch(MidiChannel.All);
         }
 
         public static void SendNoteOn(uint deviceID, MidiChannel channel, int noteNumber, float velocity)

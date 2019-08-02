@@ -188,6 +188,16 @@ namespace MidiJack
             MidiDriver.Instance.SendCC(deviceID, channel, ccNumber, value);
         }
 
+        public static void SendProgramChange(uint deviceID, MidiChannel channel, int number)
+        {
+            MidiDriver.Instance.SendProgramChange(deviceID, channel, number);
+        }
+
+        public static void SendSystemMessage(uint deviceID, int number)
+        {
+            MidiDriver.Instance.SendSystemMessage(deviceID, number);
+        }
+
         public static void SendChannelMessage(uint deviceID, uint statusbyte, uint databyte)
         {
             MidiDriver.Instance.SendChannelMessage(deviceID, statusbyte, databyte);

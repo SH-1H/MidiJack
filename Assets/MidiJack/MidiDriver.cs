@@ -177,6 +177,21 @@ namespace MidiJack
             SendMessage(deviceID, message);
         }
 
+        public void SendProgramChange(uint deviceID, MidiChannel channel, int number)
+        {
+            uint message = 0x00C00000;
+            message |= ((uint)channel << 16) & 0x000f0000;
+            message |= ((uint)number << 8) & 0x0000ff00;
+            SendMessage(deviceID, message);
+        }
+
+        public void SendSystemMessage(uint deviceID, int number)
+        {
+            uint message = 0x00F00000;
+            message |= ((uint)number << 16) & 0x000f0000;
+            SendMessage(deviceID, message);
+        }
+
         // Send MIDI channel message (channel voice/mode message)
         // databyte is 2byte hex data
         public void SendChannelMessage(uint deviceID, uint statusbyte, uint databyte)

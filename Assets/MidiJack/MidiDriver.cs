@@ -49,8 +49,12 @@ namespace MidiJack
 
             // PitchBend -1 to +1
             public float _pitchBend;
+
             // After touch (channel pressure)
             public float _afterTouch;
+
+            // Program number
+            public int _programNumber;
 
             public ChannelState()
             {
@@ -59,6 +63,7 @@ namespace MidiJack
                 _pitchBend = 0.0f;
                 _afterTouchArray = new float[128];
                 _afterTouch = 0.0f;
+                _programNumber = 0;
             }
         }
 
@@ -67,6 +72,9 @@ namespace MidiJack
 
         // Last update frame number
         int _lastFrame;
+
+        // Received number of system message
+        int _systemMessage;
 
         #endregion
 
@@ -126,6 +134,18 @@ namespace MidiJack
         {
             UpdateIfNeeded();
             return _channelArray[(int)channel]._afterTouch;
+        }
+
+        public int GetProgramNumber(MidiChannel channel)
+        {
+            UpdateIfNeeded();
+            return _channelArray[(int)channel]._programNumber;
+        }
+
+        public int GetSystemMessage()
+        {
+            UpdateIfNeeded();
+            return _systemMessage;
         }
 
 
@@ -207,6 +227,8 @@ namespace MidiJack
         public delegate void PitchBendDelegate(MidiChannel channel, float bend);
         public delegate void PolyAfterTouchDelegate(MidiChannel channel, int note, float pressure);
         public delegate void ChannelAfterTouchDelegate(MidiChannel channel, float pressure);
+        public delegate void ProgramChangeDelegate(MidiChannel channel, int number);
+        public delegate void SystemMessageDelegate(int number);
 
         public NoteOnDelegate noteOnDelegate { get; set; }
         public NoteOffDelegate noteOffDelegate { get; set; }
@@ -214,12 +236,14 @@ namespace MidiJack
         public PitchBendDelegate pitchBendDelegate { get; set; }
         public PolyAfterTouchDelegate polyAfterTouchDelegate { get; set; }
         public ChannelAfterTouchDelegate channelAfterTouchDelegate { get; set; }
+        public ProgramChangeDelegate programChangeDelegate { get; set; }
+        public SystemMessageDelegate systemMessageDelegate { get; set; }
 
         #endregion
 
         #region Editor Support
 
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
 
         // Update timer
         const float _updateInterval = 1.0f / 30;
@@ -399,6 +423,23 @@ namespace MidiJack
                     _channelArray[(int)MidiChannel.All]._afterTouch = pressure;
                     if(channelAfterTouchDelegate != null)
                         channelAfterTouchDelegate((MidiChannel)channelNumber, pressure);
+                }
+
+                // program change?
+                if (statusCode == 0xc)
+                {
+                    _channelArray[channelNumber]._programNumber = message.data1;
+                    _channelArray[(int)MidiChannel.All]._programNumber = message.data1;
+                    if (programChangeDelegate != null)
+                        programChangeDelegate((MidiChannel)channelNumber, message.data1);
+                }
+
+                // system message?
+                if (statusCode == 0xf)
+                {
+                    _systemMessage = channelNumber;
+                    if (systemMessageDelegate != null)
+                        systemMessageDelegate(channelNumber);
                 }
 
                 #if UNITY_EDITOR

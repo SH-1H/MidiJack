@@ -55,6 +55,18 @@ namespace MidiJack
             set { MidiDriver.Instance.channelAfterTouchDelegate = value; }
         }
 
+        public static MidiDriver.ProgramChangeDelegate programChangeDelegate
+        {
+            get { return MidiDriver.Instance.programChangeDelegate; }
+            set { MidiDriver.Instance.programChangeDelegate = value; }
+        }
+
+        public static MidiDriver.SystemMessageDelegate systemMessageDelegate
+        {
+            get { return MidiDriver.Instance.systemMessageDelegate; }
+            set { MidiDriver.Instance.systemMessageDelegate = value; }
+        }
+
         // Returns the key state (on: velocity, off: zero).
         public static float GetKey(MidiChannel channel, int noteNumber)
         {
@@ -110,6 +122,7 @@ namespace MidiJack
             return MidiDriver.Instance.GetKnob(MidiChannel.All, knobNumber, defaultValue);
         }
 
+        // Returns pitch bend value. 
         public static float GetBend(MidiChannel channel)
         {
             return MidiDriver.Instance.GetBend(channel);
@@ -141,6 +154,24 @@ namespace MidiJack
         {
             return MidiDriver.Instance.GetChannelAfterTouch(MidiChannel.All);
         }
+
+        // Returns program number.
+        public static int GetProgramNumber(MidiChannel channel)
+        {
+            return MidiDriver.Instance.GetProgramNumber(channel);
+        }
+
+        public static int GetProgramNumber()
+        {
+            return MidiDriver.Instance.GetProgramNumber(MidiChannel.All);
+        }
+
+        // Returns system message.
+        public static int GetSystemMessage()
+        {
+            return MidiDriver.Instance.GetSystemMessage();
+        }
+
 
         public static void SendNoteOn(uint deviceID, MidiChannel channel, int noteNumber, float velocity)
         {

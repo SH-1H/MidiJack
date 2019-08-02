@@ -188,6 +188,21 @@ namespace MidiJack
             MidiDriver.Instance.SendCC(deviceID, channel, ccNumber, value);
         }
 
+        public static void SendBend(uint deviceID, MidiChannel channel, float value)
+        {
+            MidiDriver.Instance.SendBend(deviceID, channel, value);
+        }
+
+        public static void SendPolyAfterTouch(uint deviceID, MidiChannel channel, int noteNumber, float pressure)
+        {
+            MidiDriver.Instance.SendPolyAfterTouch(deviceID, channel, noteNumber, pressure);
+        }
+
+        public static void SendChannelAfterTouch(uint deviceID, MidiChannel channel, float pressure)
+        {
+            MidiDriver.Instance.SendChannelAfterTouch(deviceID, channel, pressure);
+        }
+
         public static void SendProgramChange(uint deviceID, MidiChannel channel, int number)
         {
             MidiDriver.Instance.SendProgramChange(deviceID, channel, number);

@@ -28,12 +28,12 @@ public class DelegateTester : MonoBehaviour
 
     void Bend(MidiChannel channel, float bend)
     {
-        Debug.Log("Bend: " + bend);
+        Debug.Log("Bend: " + channel + "," + bend);
     }
 
     void ProgramChange(MidiChannel channel, int number)
     {
-        Debug.Log("ProgramChange: " + number);
+        Debug.Log("ProgramChange: " + channel + "," + number);
     }
 
     void SystemMessage(int number)
@@ -50,7 +50,7 @@ public class DelegateTester : MonoBehaviour
         MidiMaster.polyAfterTouchDelegate += PolyAfterTouch;
         MidiMaster.channelAfterTouchDelegate += ChannelAfterTouch;
         MidiMaster.programChangeDelegate += ProgramChange;
-        MidiMaster.systemMessageDelegate += SystemMessage;
+        //MidiMaster.systemMessageDelegate += SystemMessage;
     }
 
     void OnDisable()
@@ -62,6 +62,6 @@ public class DelegateTester : MonoBehaviour
         MidiMaster.polyAfterTouchDelegate -= PolyAfterTouch;
         MidiMaster.channelAfterTouchDelegate -= ChannelAfterTouch;
         MidiMaster.programChangeDelegate -= ProgramChange;
-        MidiMaster.systemMessageDelegate -= SystemMessage;
+        //MidiMaster.systemMessageDelegate -= SystemMessage;
     }
 }

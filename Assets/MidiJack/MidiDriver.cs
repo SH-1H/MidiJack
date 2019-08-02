@@ -177,6 +177,32 @@ namespace MidiJack
             SendMessage(deviceID, message);
         }
 
+        public void SendBend(uint deviceID, MidiChannel channel, float value)
+        {
+            uint message = 0x00E00000;
+            message |= ((uint)channel << 16) & 0x000f0000;
+            //message |= ((uint)((value+1) * 8191f)) & 0x00003fff;
+            message |= 0x00000060;
+            SendMessage(deviceID, message);
+        }
+
+        public void SendPolyAfterTouch(uint deviceID, MidiChannel channel, int noteNumber, float pressure)
+        {
+            uint message = 0x00A00000;
+            message |= ((uint)channel << 16) & 0x000f0000;
+            message |= ((uint)noteNumber << 8) & 0x0000ff00;
+            message |= (uint)(pressure * 127f) & 0x000000ff;
+            SendMessage(deviceID, message);
+        }
+
+        public void SendChannelAfterTouch(uint deviceID, MidiChannel channel, float pressure)
+        {
+            uint message = 0x00D00000;
+            message |= ((uint)channel << 16) & 0x000f0000;
+            message |= ((uint)(pressure * 127f) << 8) & 0x0000ff00;
+            SendMessage(deviceID, message);
+        }
+
         public void SendProgramChange(uint deviceID, MidiChannel channel, int number)
         {
             uint message = 0x00C00000;
@@ -418,6 +444,8 @@ namespace MidiJack
                     _channelArray[(int)MidiChannel.All]._pitchBend = bend;
                     if (pitchBendDelegate != null)
                         pitchBendDelegate((MidiChannel)channelNumber, bend);
+
+                    Debug.Log("PB MSB:" + message.data1 + ", PB MSB" + +message.data2);
                 }
 
                 // channel after touch?

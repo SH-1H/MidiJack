@@ -39,15 +39,4 @@ public class SendTest : MonoBehaviour {
 		 yield return new WaitForSeconds (0.2f);
 		 MidiMaster.SendNoteOff(id, MidiJack.MidiChannel.Ch1, note, 0.8f);
 	}
-
-    public void Send()
-    {
-        uint id = midiManager.MidiOutDevices[midiOutSelector.value].Id;
-        int note = int.Parse(message.text, NumberStyles.HexNumber);
-
-        MidiMaster.SendBend(id, MidiJack.MidiChannel.Ch1, 0.8f);
-        MidiMaster.SendPolyAfterTouch(id, MidiJack.MidiChannel.Ch1, note, 0.8f);
-        MidiMaster.SendChannelAfterTouch(id, MidiJack.MidiChannel.Ch1, 0.8f);
-        MidiMaster.SendProgramChange(id, MidiJack.MidiChannel.Ch1, 15);
-    }
 }

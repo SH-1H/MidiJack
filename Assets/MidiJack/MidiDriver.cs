@@ -179,10 +179,11 @@ namespace MidiJack
 
         public void SendBend(uint deviceID, MidiChannel channel, float value)
         {
+            var b = (value + 1.0f) * 16383f / 2.0f;
             uint message = 0x00E00000;
             message |= ((uint)channel << 16) & 0x000f0000;
-            //message |= ((uint)((value+1) * 8191f)) & 0x00003fff;
-            message |= 0x00000060;
+            message |= ((uint)b << 7) & 0x00007f00;
+            message |= ((uint)b >> 7) & 0x0000007f;
             SendMessage(deviceID, message);
         }
 
@@ -444,8 +445,6 @@ namespace MidiJack
                     _channelArray[(int)MidiChannel.All]._pitchBend = bend;
                     if (pitchBendDelegate != null)
                         pitchBendDelegate((MidiChannel)channelNumber, bend);
-
-                    Debug.Log("PB MSB:" + message.data1 + ", PB MSB" + +message.data2);
                 }
 
                 // channel after touch?

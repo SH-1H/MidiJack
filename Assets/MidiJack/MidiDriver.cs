@@ -179,7 +179,7 @@ namespace MidiJack
 
         public void SendBend(uint deviceID, MidiChannel channel, float value)
         {
-            var b = (value + 1.0f) * 16383f / 2.0f;
+            var b = Mathf.Round((value + 1.0f) * 16383f / 2.0f);
             uint message = 0x00E00000;
             message |= ((uint)channel << 16) & 0x000f0000;
             message |= ((uint)b << 7) & 0x00007f00;
